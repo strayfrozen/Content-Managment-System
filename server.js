@@ -53,24 +53,101 @@ function viewAll() {
 function addNewEmployee() {
     inquirer.prompt([
         {
-
+            type: 'input',
+            name: 'department',
+            message: 'What department will your employee be working in?'
         }
     ]).then(answer => {
-        connection.query('')
+        connection.query('INSERT INTO department SET ?',
+            {
+                name: answer.department
+            }
+        )
         inquirer.prompt([
             {
+                type: 'input',
+                name: 'title',
+                message: 'What is the role title for your employee?'
+            },
+            {
+                type: 'input',
+                name: 'salary',
+                message: 'What is the salary for your employee?'
+            },
+            {
+                type: 'input',
+                name: 'departmentId',
+                message: 'What is the ID for your employee?'
+            },
 
-            }
-        ]).then(answer => {
-            connection.query('')
+        ]).then(answer2 => {
+            connection.query('INSERT INTO role SET ?;', {
+                title: answer2.title,
+                salary: answer2.salary,
+                department_id: answer2.departmentId
+            })
             inquirer.prompt([
                 {
+                    type: 'input',
+                    name: 'first',
+                    message: 'What is the first name of your employee?'
+                },
+                {
+                    type: 'input',
+                    name: 'last',
+                    message: 'What is the last name of your employee?'
+                },
+                {
+                    type: 'input',
+                    name: 'roleId',
+                    message: 'What is the ID for your employee?'
+                },
 
-                }
-            ]).then(answer => {
-                connection.query('')
+            ]).then(answer3 => {
+                connection.query('INSERT INTO employee SET ?',
+                    {
+                        first_name: answer3.first,
+                        last_name: answer3.last,
+                        role_id: answer3.roleId
+                    }
+                )
                 questions()
             })
         })
+    })
+}
+
+function updateEmployeesRole() {
+    inquirer.prompt([
+        {
+            type: 'input',
+            name: 'id',
+            message: 'What is the id of the employee you are updating?'
+        },
+        {
+            type: 'input',
+            name: 'role',
+            message: 'What is the new role of the employee you are updating?'
+        }
+    ]).then(answer => {
+        connection.query('UPDATE role SET ? WHERE ?',
+            [
+                {
+                    title: answer.role
+                },
+                {
+                    department_id: answer.id
+                }
+            ]
+        )
+        questions()
+    })
+}
+
+function viewAllEmployees() {
+    connection.query('SELECT * FROM employee', (err, res) => {
+        if (err) throw err;
+        console.table(res)
+        questions()
     })
 }
