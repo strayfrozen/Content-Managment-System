@@ -151,3 +151,19 @@ function viewAllEmployees() {
         questions()
     })
 }
+
+function viewAllDepartments() {
+    connection.query('SELECT * FROM department', (err, res) => {
+        if (err) throw err;
+        console.table(res)
+        questions()
+    })
+}
+
+function viewAllRoles() {
+    connection.query('SELECT * FROM role', (err, res) => {
+        if (err) throw err;
+        console.table(res)
+        questions()
+    })
+}
