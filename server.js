@@ -1,6 +1,10 @@
 const mysql = require('mysql2');
 const inquirer = require('inquirer')
 
+
+//Set up connection to database if problem throw error
+//else run questions function
+
 const connection = mysql.createConnection({
     host: "localhost",
     port: 3306,
@@ -13,6 +17,9 @@ connection.connect(err => {
     if (err) throw err
     questions()
 })
+
+//Question function uses inquirer to create a list of choices when choice is clicked
+//will run a seperate function to get information back as an answer and then display on CLI
 
 function questions() {
     inquirer.prompt([
